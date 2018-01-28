@@ -30,6 +30,7 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess)
 			UGameplayStatics::GetAllActorsOfClass(this, SpectatingViewpointClass, TheActorArray);
 			if (TheActorArray.Num() > 0)
 			{
+				UE_LOG(LogTemp, Log, TEXT("Number of spectating class: %d"), TheActorArray.Num());
 				AActor* NewViewTarget = TheActorArray[0];
 				ThePlayerController->SetViewTargetWithBlend(NewViewTarget, 2.0f, EViewTargetBlendFunction::VTBlend_Cubic);
 			}

@@ -5,6 +5,7 @@
 #include "DrawDebugHelpers.h"
 #include "Math/UnrealMath.h"
 #include "FPSGameMode.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AFPSAIGuard::AFPSAIGuard()
@@ -16,7 +17,7 @@ AFPSAIGuard::AFPSAIGuard()
 	PawnSensingComp->OnSeePawn.AddDynamic(this, &AFPSAIGuard::OnSeeingPawn);
 	PawnSensingComp->OnHearNoise.AddDynamic(this, &AFPSAIGuard::OnHearingNoise);
 
-
+	GuardState = EAIState::Idle;
 
 }
 
@@ -41,6 +42,7 @@ void AFPSAIGuard::OnSeeingPawn(APawn* SeenPawn)
 	{
 		DrawDebugSphere(GetWorld(), SeenPawn->GetActorLocation(), 32.f, 12, FColor::Blue, false, 10.f);
 		AFPSGameMode* TheGameMode = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
+		SetGuardState(EAIState::Alerted);
 		if (TheGameMode)
 		{
 			TheGameMode->CompleteMission(SeenPawn, false);
@@ -50,6 +52,10 @@ void AFPSAIGuard::OnSeeingPawn(APawn* SeenPawn)
 
 void AFPSAIGuard::OnHearingNoise(APawn* HeardPawn, const FVector& Location, float Volume)
 {
+	if (GuardState == EAIState::Alerted)
+	{
+		return;
+	}
 	DrawDebugSphere(GetWorld(), Location, 32.f, 12, FColor::Red, false, 10.f);
 	FVector Direction = Location - GetActorLocation();
 	Direction.Normalize();
@@ -58,12 +64,18 @@ void AFPSAIGuard::OnHearingNoise(APawn* HeardPawn, const FVector& Location, floa
 	NewRotation.Roll = 0.f;
 	SetActorRotation(NewRotation);
 	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AFPSAIGuard::ReturnToOriginalRotation, 5.0f);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AFPSAIGuard::ReturnToOriginalRotation, 3.0f);
+	SetGuardState(EAIState::Suspicious);
 }
 
 void AFPSAIGuard::ReturnToOriginalRotation()
 {
+	if (GuardState == EAIState::Alerted)
+	{
+		return;
+	}
 	SetActorRotation(OriginalRotation);
+	SetGuardState(EAIState::Idle);
 }
 
 

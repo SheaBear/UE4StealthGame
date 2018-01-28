@@ -8,8 +8,8 @@
 
 class UPawnSensingComponent;
 
-UPROPERTY(BlueprintType)
-enum EAIState : uint8
+UENUM(BlueprintType)
+enum class EAIState : uint8
 {
 	Idle,
 	Suspicious,
@@ -37,7 +37,7 @@ protected:
 	void OnSeeingPawn(APawn* SeenPawn);
 
 	UFUNCTION()
-	void OnHearingNoise(APawn* HeardPawn, const FVector& Location, float Volume);
+	virtual void OnHearingNoise(APawn* HeardPawn, const FVector& Location, float Volume);
 
 	FRotator OriginalRotation;
 
@@ -50,7 +50,7 @@ protected:
 	void SetGuardState(EAIState NewGuardState);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
-		void OnStateChanged(EAIState NewState);
+	void OnStateChanged(EAIState NewState);
 
 public:	
 	// Called every frame
