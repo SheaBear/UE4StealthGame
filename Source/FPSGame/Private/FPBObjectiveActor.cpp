@@ -45,6 +45,7 @@ void AFPBObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 	//PlayEffects();
+	//Make sure it was a character that overlapped.
 	AFPSCharacter* TheFPSCharacter = Cast<AFPSCharacter>(OtherActor);
 	if (TheFPSCharacter)
 	{
