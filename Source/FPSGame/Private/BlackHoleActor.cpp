@@ -8,7 +8,8 @@ ABlackHoleActor::ABlackHoleActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	// Use this sphere to suck in actors like a black hole.
 	SuckingSphere = CreateDefaultSubobject<USphereComponent>(TEXT("SuckingSphere"));
 	SuckingSphere->SetSphereRadius(20000.f);
 
