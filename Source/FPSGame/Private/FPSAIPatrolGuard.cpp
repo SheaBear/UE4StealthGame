@@ -20,6 +20,7 @@ void AFPSAIPatrolGuard::BeginPlay()
 	TheCapsuleComponent->bGenerateOverlapEvents = true;
 	//CurrentLocation = GetActorLocation();
 	AAIController* TheAIController = Cast<AAIController>(GetController());
+	// Need to update this later to not use get all actors of class. Use a TSubclassOf.
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), PatrolTargets, ThePatrolTargets);
 	if (ThePatrolTargets.Num() > 0)
 	{
