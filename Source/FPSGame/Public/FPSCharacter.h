@@ -35,6 +35,7 @@ protected:
 	UCameraComponent* CameraComponent;
 
 public:
+	//Constructor!
 	AFPSCharacter();
 
 	/** Projectile class to spawn */
