@@ -21,6 +21,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// The box to contain the guard in.
 	UPROPERTY()
 	UBoxComponent* BoxComp;
 
