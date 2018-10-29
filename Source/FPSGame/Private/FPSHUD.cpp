@@ -17,6 +17,7 @@ AFPSHUD::AFPSHUD()
 
 void AFPSHUD::DrawHUD()
 {
+	// Make sure we call constructor
 	Super::DrawHUD();
 
 	// Draw very simple crosshair
